@@ -26,7 +26,7 @@ public:
 	bool isAlive();
 	int getLives();
 	bool collision(Obstacle* other);
-	void touchdown();
+	bool touchdown();
 	bool endGame();
 };
 

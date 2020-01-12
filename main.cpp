@@ -15,6 +15,7 @@ int main(int argc, char** argv) {
 	Obstacle** logs = new Obstacle * [20];
 
 	for (int i = 0; i < 5; i++) {
+		/*
 		trucks[i] = new Obstacle(i * 256, 256, 96, 32, -0.3, "images/truck_head_left.bmp");
 		trucks[i + 5] = new Obstacle(i * 288, 288, 64, 32, 0.7, "images/car_head_right.bmp");
 		trucks[i + 10] = new Obstacle(i * 288, 320, 64, 32, -0.5, "images/car_head_left.bmp");
@@ -24,6 +25,17 @@ int main(int argc, char** argv) {
 		logs[i + 5] = new Obstacle(i * 288, 128, 64, 32, 0.5, "images/turtle_size_2.bmp");
 		logs[i + 10] = new Obstacle(i * 288, 160, 96, 32, -0.7, "images/log_size_3.bmp");
 		logs[i + 15] = new Obstacle(i * 256, 192, 64, 32, 0.3, "images/turtle_size_2.bmp");
+		*/
+
+		trucks[i] = new Obstacle(i * 256, 256, 96, 32, -0.1, "images/truck_head_left.bmp");
+		trucks[i + 5] = new Obstacle(i * 288, 288, 64, 32, 0.1, "images/car_head_right.bmp");
+		trucks[i + 10] = new Obstacle(i * 288, 320, 64, 32, -0.1, "images/car_head_left.bmp");
+		trucks[i + 15] = new Obstacle(i * 256, 352, 96, 32, 0.1, "images/truck_head_right.bmp");
+
+		logs[i] = new Obstacle(i * 256, 96, 96, 32, -0.1, "images/log_size_3.bmp");
+		logs[i + 5] = new Obstacle(i * 288, 128, 64, 32, 0.1, "images/turtle_size_2.bmp");
+		logs[i + 10] = new Obstacle(i * 288, 160, 96, 32, -0.1, "images/log_size_3.bmp");
+		logs[i + 15] = new Obstacle(i * 256, 192, 64, 32, 0.1, "images/turtle_size_2.bmp");
 	}
 
 	int t1 = SDL_GetTicks();
@@ -67,14 +79,22 @@ int main(int argc, char** argv) {
 				}
 			}
 			if (!dead) frog->move(speed);
-			else frog->reset();
+			else {
+				frog->reset();
+				time = 0;
+			}
 		}
 		else {
 			for (int i = 0; i < 20; i++) {
-				if (frog->collision(trucks[i])) frog->reset();
+				if (frog->collision(trucks[i])) {
+					frog->reset();
+					time = 0;
+				}
 			}
 		}
-		frog->touchdown();
+		if (frog->touchdown()) {
+			time = 0;
+		}
 
 		// drawing objects
 		for (int i = 0; i < 20; i++) {
