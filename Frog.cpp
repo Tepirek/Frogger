@@ -86,14 +86,14 @@ bool Frog::collision(Obstacle* other) {
 	return !(positionX + width <= other->getX() || positionX >= other->getX() + other->getWidth() || positionY + 32 <= other->getY() || positionY >= other->getY() + 32);
 }
 
-void Frog::touchdown() {
+bool Frog::touchdown() {
 	if (positionY == 64) {
 		for (int i = 0; i < 6; i++) {
 			if (positionX >= 64 + (i * 96) - 8 && positionX <= 96 + (i * 96) + 8 && !base[i]) {
 				base[i] = 1;
 				positionX = STARTING_POSITION_X;
 				positionY = STARTING_POSITION_Y;
-				return;
+				return true;
 			}
 		}
 		for (int i = 0; i < 6; i++) {
@@ -101,14 +101,15 @@ void Frog::touchdown() {
 				base[i] = 1;
 				positionX = STARTING_POSITION_X;
 				positionY = STARTING_POSITION_Y;
-				return;
+				return true;
 			}
 			else {
 				reset();
-				return;
+				return false;
 			}
 		}
 	}
+	return false;
 }
 
 bool Frog::endGame() {
